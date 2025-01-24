@@ -1,0 +1,11 @@
+{
+  "totalCount": 60,
+  "planets": {
+    "id": 49,
+    "name": "Dorin",
+    "diameter": "13400",
+    "residents": {
+      "name": "Plo Koon"
+    }
+  }
+}
