@@ -1,0 +1,11 @@
+{
+  "totalCount": 82,
+  "people": {
+    "id": 1,
+    "name": "Luke Skywalker",
+    "vehicles": [
+      { "name": "Snowspeeder", "max_atmosphering_speed": "650" },
+      { "name": "Imperial Speeder Bike", "max_atmosphering_speed": "360" }
+    ]
+  }
+}
