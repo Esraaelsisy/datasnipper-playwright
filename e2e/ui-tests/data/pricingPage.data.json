@@ -1,0 +1,8 @@
+{
+  "packages": ["Basic", "Professional", "Enterprise"],
+  "bookDemoLinks": [
+    "/book-demo-basic",
+    "/book-demo-professional",
+    "/book-demo-enterprise"
+  ]
+}
