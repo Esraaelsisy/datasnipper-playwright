@@ -1,0 +1,26 @@
+{
+  "name": "datasnipper-playwright",
+  "version": "1.0.0",
+  "description": "This is a public repo for Datasnipper Assessment using Playwright",
+  "main": "index.js",
+  "scripts": {
+    "api-tests": "npx playwright test api-tests/tests",
+    "ui-tests": "npx playwright test ui-tests/specs --project=chromium"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esraaelsisy/datasnipper-playwright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Esraaelsisy/datasnipper-playwright/issues"
+  },
+  "homepage": "https://github.com/Esraaelsisy/datasnipper-playwright#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.7"
+  }
+}
