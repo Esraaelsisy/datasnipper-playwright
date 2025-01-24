@@ -88,9 +88,47 @@ e2e/
    ```
 
 ### Key Features
-1. Modular Structure: Separate directories for UI and API tests.
-2. Page Object Model (POM): All UI elements and actions are encapsulated in `pages/`.
-3. Data-Driven Tests: Test data is stored in JSON files under `data/`.
-4. Utilities: Reusable helper functions under `utils/`.
-5. Fixtures: Centralized setup and teardown logic in `fixtures/`.
-6. Playwright Reporting: Automated HTML report generation for test runs.  
+
+1. **Modular Structure**  
+   The repository is organized into distinct directories for UI and API tests, making it easy to manage and scale. Each directory has dedicated subfolders for:
+   - **`data/`**: Stores test data in JSON format.
+   - **`fixtures/`**: Contains setup and teardown logic for tests.
+   - **`pages/`** (for UI tests): Implements the Page Object Model (POM) pattern.
+   - **`tests/`**: Includes the actual test specifications.
+   - **`utils/`**: Contains reusable helper functions to reduce code duplication.
+
+2. **Page Object Model (POM)**  
+   For UI tests, the POM design pattern is implemented to encapsulate all UI elements and actions into reusable classes in the `pages/` directory. This approach:
+   - Promotes reusability of element locators and actions across multiple tests.
+   - Simplifies maintenance by centralizing UI-related changes in one place.
+   - Improves code readability by separating test logic from page interaction logic.
+
+3. **Data-Driven Tests**  
+   All test data, such as input values, expected outputs, and configurations, is stored in JSON files under the `data/` directory. This design:
+   - Enables dynamic test execution with different data sets.
+   - Makes the tests flexible and easy to update without modifying test logic.
+   - Supports the separation of test logic and test data for better maintainability.
+
+4. **Utilities**  
+   The `utils/` directory contains reusable helper functions for common operations, such as:
+   - API request builders.
+   - Response validation.
+   - Cookie handling.
+   - Utility methods to simplify repetitive tasks in both UI and API tests.
+   This promotes cleaner test files and reduces redundancy across the codebase.
+
+5. **Fixtures**  
+   Centralized fixtures provide consistent setup and teardown logic for tests. This includes:
+   - Creating browser contexts and pages for UI tests.
+   - Initializing API clients with base configurations for API tests.
+   - Managing preconditions and cleanups like cookie handling or test environment resets.
+   Fixtures improve test reliability and reduce duplication of setup logic.
+
+6. **Playwright Reporting**  
+   The repository leverages Playwright's built-in reporting capabilities to generate detailed HTML reports after test runs. Features of the reporting include:
+   - A summary of passed, failed, and skipped tests.
+   - Detailed trace logs, screenshots, and videos for debugging failed tests.
+   - Easy navigation to identify issues in the test run.
+   These reports are auto-generated and stored in the `playwright-report/` directory for later analysis.
+
+
