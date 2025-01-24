@@ -1,0 +1,9 @@
+{
+  "baseUrl": "https://swapi.dev/api",
+  "films": "/films/",
+  "filmsById": "/films/{film_id}/",
+  "planets": "/planets/",
+  "planetsById": "/planets/{planet_id}/",
+  "people": "/people/",
+  "peopleById": "/people/{people_id}/"
+}
