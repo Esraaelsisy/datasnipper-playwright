@@ -1,0 +1,26 @@
+{
+  "questions": {
+    "firstQuestion": "What's your yearly number of audit engagements?",
+    "secondQuestion": "What's your average internal cost of employee per hour?",
+    "thirdQuestion": "What's your average number of walkthrough procedures per audit engagement?",
+    "fourthQuestion": "What's your average number of test of control procedures per audit engagement?",
+    "fifthQuestion": "What's your average number of test of detail procedures per audit engagement?",
+    "sixthQuestion": "What's your average number of financial statements per audit engagement?",
+    "seventhQuestion": "How fast will your firm embrace the DataSnipper way of working to perform audit procedures more efficiently?"
+  },
+  "answers": {
+    "firstAnswer": "1000",
+    "secondAnswer": "500",
+    "thirdAnswer": "3 - 5",
+    "fourthAnswer": "5 - 8",
+    "fifthAnswer": "15 - 20",
+    "sixthAnswer": "4",
+    "seventhAnswer": "Normal"
+  },
+  "submitInfo": {
+    "firstName": "Esraa Test",
+    "businessEmail": "test@test.com",
+    "companyName": "DataSnipper",
+    "hearAboutUs": "Via Sales - e.g. direct outreach"
+  }
+}
