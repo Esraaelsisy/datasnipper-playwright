@@ -2,7 +2,6 @@
 
 This repository contains end-to-end (E2E) tests for the **DataSnipper** application. The tests are built using [Playwright](https://playwright.dev/) and structured to handle both **UI** and **API** testing. The project follows a modular design patterns suach as Page Object Model and Data Driven Testing for better scalability and maintainability.
 
-
 ## Table of Contents
 
 - [Project Structure](#project-structure)
@@ -10,7 +9,6 @@ This repository contains end-to-end (E2E) tests for the **DataSnipper** applicat
 - [Running the Tests](#running-the-tests)
 - [Key Features](#key-features)
 - [Test Coverage](#test-coverage)
-
 
 ## Project Structure
 
@@ -93,7 +91,7 @@ e2e/
    npx playwright show-report
    ```
 
-### Key Features
+## Key Features
 
 1. **Modular Structure**  
    The repository is organized into distinct directories for UI and API tests, making it easy to manage and scale. Each directory has dedicated subfolders for:
@@ -203,4 +201,5 @@ This repository includes comprehensive test coverage for both **UI** and **API**
 2. **API Tests**:
    - Add new test cases in the `api-tests/tests/` directory.
    - Add corresponding API request logic in the `api-tests/api/` directory.
+
 ---
