@@ -1,0 +1,7 @@
+{
+  "films": {
+    "id": 1,
+    "title": "A New Hope",
+    "planets": ["Tatooine", "Alderaan", "Yavin IV"]
+  }
+}
