@@ -1,4 +1,4 @@
-import { test, expect, ResponseHelper } from "../fixtures/requestBuilder";
+import { test, expect, ResponseHelper } from "../fixtures/apiManager";
 import planetsData from "../data/planets.data.json";
 
 test.describe("Planets API Tests", () => {
@@ -9,7 +9,10 @@ test.describe("Planets API Tests", () => {
       console.log("Fetching all planets data...");
       const response = await apiManager.planetsApi.getAllPlanets();
       const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(response, 200);
+        await ResponseHelper.validateResponseStatusAndContentType(
+          response,
+          200
+        );
       console.log("Planets data fetched and response validated successfully.");
 
       await test.step("Validate total planets count", async () => {
@@ -23,49 +26,39 @@ test.describe("Planets API Tests", () => {
   test(`@TestCase4 : Validate planet ${planetsData.planets.name} has correct diameter and residents`, async ({
     apiManager,
   }) => {
+    let responseBody;
     await test.step("Fetch planet details by ID", async () => {
-      console.log(`Fetching details for planet ID: ${planetsData.planets.id}...`);
+      console.log(
+        `Fetching details for planet ID: ${planetsData.planets.id}...`
+      );
       const response = await apiManager.planetsApi.getPlanetById(
         planetsData.planets.id
       );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(response, 200);
-      console.log("Planet details fetched and response validated successfully.");
+      responseBody = await ResponseHelper.validateResponseStatusAndContentType(
+        response,
+        200
+      );
+      console.log(
+        "Planet details fetched and response validated successfully."
+      );
     });
 
     await test.step("Validate planet diameter", async () => {
-      console.log("Validating planet diameter...");
-      const response = await apiManager.planetsApi.getPlanetById(
-        planetsData.planets.id
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(response, 200);
       expect(responseBody.diameter).toBe(planetsData.planets.diameter);
       console.log("Planet diameter validated successfully.");
     });
 
     await test.step("Validate planet residents count", async () => {
-      console.log("Validating planet residents count...");
-      const response = await apiManager.planetsApi.getPlanetById(
-        planetsData.planets.id
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(response, 200);
       expect(responseBody.residents.length).toBe(1);
       console.log("Planet residents count validated successfully.");
     });
 
     await test.step("Fetch and validate resident details", async () => {
       console.log("Fetching resident details...");
-      const response = await apiManager.planetsApi.getPlanetById(
-        planetsData.planets.id
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(response, 200);
       const residentUrl = responseBody.residents[0];
-
-      const residentResponse =
-        await apiManager.requestBuilder.getWithFixedURL(residentUrl);
+      const residentResponse = await apiManager.requestBuilder.getWithFixedURL(
+        residentUrl
+      );
       const residentData = await residentResponse.json();
       console.log("Resident details fetched:", residentData);
 
