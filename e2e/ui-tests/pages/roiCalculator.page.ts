@@ -1,67 +1,85 @@
-import { Page, FrameLocator } from "@playwright/test";
+import { Page, Locator, FrameLocator } from "@playwright/test";
 
 export class ROICalculatorPage {
   readonly page: Page;
+  private frameSelector: string;
+  private startCalculatingButtonName: string;
+  private continueButtonName: string;
+  private firstNamePlaceholder: string;
+  private emailPlaceholder: string;
+  private companyNamePlaceholder: string;
+  private hearAboutUsPlaceholder: string;
+  private successMessageText: string;
+  private downloadReportButtonText: string;
+
   constructor(page: Page) {
     this.page = page;
+    this.frameSelector =
+      'iframe[title="External Audit - DataSnipper ROI Report"]';
+    this.startCalculatingButtonName = "keyboard_backspace Start";
+    this.continueButtonName = "Continue";
+    this.firstNamePlaceholder = "Your name";
+    this.emailPlaceholder = "you@business.com";
+    this.companyNamePlaceholder = "e.g. Deloitte";
+    this.hearAboutUsPlaceholder = "e.g. Linkedin";
+    this.successMessageText = "Your personal ROI report is ready to download";
+    this.downloadReportButtonText = "Download your ROI report";
   }
 
-  async navigateToCalculator() {
-    await this.page.goto("/roi-calculator-external-audit");
-  }
-
-  async getFrame() {
-    const frameElementHandle = await this.page.waitForSelector(
-      'iframe[title="External Audit - DataSnipper ROI Report"]'
-    );
-    const frame = await frameElementHandle.contentFrame();
+  private async getFrame(): Promise<FrameLocator> {
+    const frame = this.page.frameLocator(this.frameSelector);
     if (!frame) {
       throw new Error("Unable to find the iframe or access its content.");
     }
     return frame;
   }
 
-  async getStartCalculatingButton() {
+  async navigateToCalculator(): Promise<void> {
+    await this.page.goto("/roi-calculator-external-audit");
+  }
+
+  async getStartCalculatingButton(): Promise<Locator> {
     const frame = await this.getFrame();
     const startCalculatingButton = frame.getByRole("button", {
-      name: "keyboard_backspace Start",
+      name: this.startCalculatingButtonName,
     });
     await startCalculatingButton.waitFor({ state: "visible" });
     return startCalculatingButton;
   }
 
-  async clickStartCalculating() {
-    await (await this.getStartCalculatingButton()).click();
-    console.log("Clicked Start Calculating button.");
+  async clickStartCalculating(): Promise<void> {
+    const startButton = await this.getStartCalculatingButton();
+    await startButton.click();
   }
 
-  async getQuestionText(question: string) {
+  async getQuestionText(question: string): Promise<string | null> {
     const frame = await this.getFrame();
     const questionText = frame.getByText(question);
     return questionText.textContent();
   }
 
-  async answerInputQuestions(answer: string) {
-    const answerInput = (await this.getFrame()).getByRole("textbox");
+  async answerInputQuestions(answer: string): Promise<void> {
+    const frame = await this.getFrame();
+    const answerInput = frame.getByRole("textbox");
     await answerInput.click();
     await answerInput.fill(answer);
     await answerInput.press("Enter");
   }
-  async clickOnContinueButton() {
-    const continueButton = (await this.getFrame()).getByRole("button", {
-      name: "Continue",
+
+  async clickOnContinueButton(): Promise<void> {
+    const frame = await this.getFrame();
+    const continueButton = frame.getByRole("button", {
+      name: this.continueButtonName,
     });
-    if ((await continueButton.isVisible())) {
+    if (await continueButton.isVisible()) {
       await continueButton.click();
     }
   }
 
-  async answerCheckBoxQuestions(answer: string) {
-    const answerCheckBox = (await this.getFrame())
-      .locator("label")
-      .filter({ hasText: answer })
-      .first();
-    await answerCheckBox.click();
+  async answerCheckBoxQuestions(answer: string): Promise<void> {
+    const frame = await this.getFrame();
+    const checkBox = frame.locator("label").filter({ hasText: answer }).first();
+    await checkBox.click();
   }
 
   async submitROIRequestInfo(
@@ -69,46 +87,41 @@ export class ROICalculatorPage {
     email: string,
     companyName: string,
     hearAboutUs: string
-  ) {
-    const firstNameInput = (await this.getFrame()).getByPlaceholder(
-      "Your name"
+  ): Promise<void> {
+    const frame = await this.getFrame();
+
+    const firstNameInput = frame.getByPlaceholder(this.firstNamePlaceholder);
+    const emailInput = frame.getByPlaceholder(this.emailPlaceholder);
+    const companyNameInput = frame.getByPlaceholder(
+      this.companyNamePlaceholder
     );
+    const hearAboutUsInput = frame.getByPlaceholder(
+      this.hearAboutUsPlaceholder
+    );
+
     await firstNameInput.fill(firstName);
-    const emailInput = (await this.getFrame()).getByPlaceholder(
-      "you@business.com"
-    );
     await emailInput.fill(email);
-    const companyNameInput = (await this.getFrame()).getByPlaceholder(
-      "e.g. Deloitte"
-    );
     await companyNameInput.fill(companyName);
-    const hearAboutUsInput = (await this.getFrame()).getByPlaceholder(
-      "e.g. Linkedin"
-    );
     await hearAboutUsInput.click();
-    const hearAboutUsOption = (await this.getFrame())
-      .getByText(hearAboutUs)
-      .first();
+
+    const hearAboutUsOption = frame.getByText(hearAboutUs).first();
     await hearAboutUsOption.click();
-    const submitButton = (await this.getFrame()).getByRole("link", {
-      name: "Submit",
-    });
+
+    const submitButton = frame.getByRole("link", { name: "Submit" });
     await submitButton.click();
   }
 
-  async getSuccessMessage() {
+  async getSuccessMessage(): Promise<Locator> {
     const frame = await this.getFrame();
-    const successMessage = frame.getByText(
-      "Your personal ROI reportis ready to download"
-    );
+    const successMessage = frame.getByText(this.successMessageText);
     await successMessage.waitFor({ state: "visible" });
     return successMessage;
   }
 
-  async getDownloadReportButton() {
+  async getDownloadReportButton(): Promise<Locator> {
     const frame = await this.getFrame();
     const downloadReportButton = frame.getByRole("link", {
-      name: "Download your ROI report",
+      name: this.downloadReportButtonText,
     });
     await downloadReportButton.waitFor({ state: "visible" });
     return downloadReportButton;
