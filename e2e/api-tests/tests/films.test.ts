@@ -1,34 +1,25 @@
-import { test, expect, ResponseHelper } from "../fixtures/requestBuilder";
+import { test, expect, ResponseHelper } from "../fixtures/apiManager";
 import filmsData from "../data/films.data.json";
 
 test.describe("Films API Tests", () => {
   test(`@TestCase2 : Validate planets in ${filmsData.films.title} film`, async ({
     apiManager,
   }) => {
+    let responseBody, planetsUrls;
     await test.step("Fetch film data by title", async () => {
       console.log(`Fetching film data for title: ${filmsData.films.title}...`);
       const response = await apiManager.filmsApi.getFilmByTitle(
         filmsData.films.title
       );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
+      responseBody = await ResponseHelper.validateResponseStatusAndContentType(
+        response,
+        200
+      );
       console.log("Film data fetched and response validated successfully.");
     });
 
     await test.step("Extract and validate planets URLs", async () => {
-      console.log("Extracting planets URLs from the response...");
-      const response = await apiManager.filmsApi.getFilmByTitle(
-        filmsData.films.title
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
-      const planetsUrls = responseBody.results[0]?.planets;
+      planetsUrls = responseBody.results[0]?.planets;
       console.log("Planets URLs extracted:", planetsUrls);
       expect(planetsUrls).toBeDefined();
       expect(planetsUrls.length).toBeGreaterThan(0);
@@ -36,16 +27,6 @@ test.describe("Films API Tests", () => {
     });
 
     await test.step("Fetch and validate planet names", async () => {
-      console.log("Fetching and validating planet names...");
-      const response = await apiManager.filmsApi.getFilmByTitle(
-        filmsData.films.title
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
-      const planetsUrls = responseBody.results[0]?.planets;
       const planetNames = await Promise.all(
         planetsUrls.map(async (planetUrl: string) => {
           console.log(`Fetching planet details from URL: ${planetUrl}...`);
