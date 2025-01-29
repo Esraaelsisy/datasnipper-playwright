@@ -1,4 +1,4 @@
-import { test, expect, ResponseHelper } from "../fixtures/requestBuilder";
+import { test, expect, ResponseHelper } from "../fixtures/apiManager";
 import peopleData from "../data/people.data.json";
 
 test.describe("People API Tests", () => {
@@ -26,6 +26,7 @@ test.describe("People API Tests", () => {
   test(`@TestCase3 : Validate person with ID ${peopleData.people.id} with name ${peopleData.people.name} correct vehicles and speeds`, async ({
     apiManager,
   }) => {
+    let responseBody, vehicleUrls;
     await test.step("Fetch person details by ID", async () => {
       console.log(`Fetching details for person ID: ${peopleData.people.id}...`);
       const response = await apiManager.peopleApi.getPersonById(
@@ -33,39 +34,22 @@ test.describe("People API Tests", () => {
       );
       console.log("Person details response:", response);
 
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
-      console.log("Person details fetched and response validated successfully.");
+      responseBody = await ResponseHelper.validateResponseStatusAndContentType(
+        response,
+        200
+      );
+      console.log(
+        "Person details fetched and response validated successfully."
+      );
     });
 
     await test.step("Validate the person's name", async () => {
-      console.log("Validating person's name...");
-      const response = await apiManager.peopleApi.getPersonById(
-        peopleData.people.id
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
       expect(responseBody.name).toBe(peopleData.people.name);
       console.log("Person's name validated successfully.");
     });
 
     await test.step("Extract and validate vehicle URLs", async () => {
-      console.log("Extracting vehicle URLs...");
-      const response = await apiManager.peopleApi.getPersonById(
-        peopleData.people.id
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
-      const vehicleUrls = responseBody.vehicles;
+      vehicleUrls = responseBody.vehicles;
       console.log("Vehicle URLs extracted:", vehicleUrls);
       expect(vehicleUrls).toBeDefined();
       expect(vehicleUrls.length).toBeGreaterThan(0);
@@ -74,16 +58,6 @@ test.describe("People API Tests", () => {
 
     await test.step("Fetch and validate vehicle details", async () => {
       console.log("Fetching vehicle details...");
-      const response = await apiManager.peopleApi.getPersonById(
-        peopleData.people.id
-      );
-      const responseBody =
-        await ResponseHelper.validateResponseStatusAndContentType(
-          response,
-          200
-        );
-      const vehicleUrls = responseBody.vehicles;
-
       const vehicleDetails = await Promise.all(
         vehicleUrls.map(async (url: string) => {
           console.log(`Fetching details for vehicle URL: ${url}...`);
