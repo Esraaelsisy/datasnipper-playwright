@@ -22,7 +22,7 @@ export class ROICalculatorPage {
     this.emailPlaceholder = "you@business.com";
     this.companyNamePlaceholder = "e.g. Deloitte";
     this.hearAboutUsPlaceholder = "e.g. Linkedin";
-    this.successMessageText = "Your personal ROI report is ready to download";
+    this.successMessageText = "Your personal ROI reportis ready to download";
     this.downloadReportButtonText = "Download your ROI report";
   }
 
